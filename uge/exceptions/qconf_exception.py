@@ -18,12 +18,15 @@
 ########################################################################### 
 #___INFO__MARK_END__ 
 # 
-import exceptions
+try:
+    from exceptions import Exception
+except:
+    pass
 import json
 
 from uge.constants import uge_status
 
-class QconfException(exceptions.Exception):
+class QconfException(Exception):
     """
     Base Qconf exception class. 
 

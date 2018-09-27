@@ -18,7 +18,7 @@
 ########################################################################### 
 #___INFO__MARK_END__ 
 # 
-from qconf_object import QconfObject
+from .qconf_object import QconfObject
 
 class AccessList(QconfObject):
     """ This class encapsulates UGE access list object. """

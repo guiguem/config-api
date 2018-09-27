@@ -18,7 +18,7 @@
 ########################################################################### 
 #___INFO__MARK_END__ 
 # 
-from qconf_object import QconfObject
+from .qconf_object import QconfObject
 
 class ResourceQuotaSet(QconfObject):
     """ This class encapsulates UGE resource quota set object. """
@@ -82,7 +82,7 @@ class ResourceQuotaSet(QconfObject):
         return lines
 
     def py_to_uge(self, key, value):
-        for (uge_value, py_value) in self.UGE_PYTHON_OBJECT_MAP.items():
+        for (uge_value, py_value) in list(self.UGE_PYTHON_OBJECT_MAP.items()):
             if value == py_value and type(value) == type(py_value):
                 return uge_value
         return value
@@ -110,7 +110,7 @@ class ResourceQuotaSet(QconfObject):
 
     def uge_to_py(self, key, value):
         uppercase_value = value.upper()
-        for (uge_value, py_value) in self.UGE_PYTHON_OBJECT_MAP.items():
+        for (uge_value, py_value) in list(self.UGE_PYTHON_OBJECT_MAP.items()):
             if uge_value == uppercase_value:
                 return py_value
         return value

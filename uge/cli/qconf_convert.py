@@ -52,9 +52,9 @@ Description:
         json_string = open(input_file).read()
         qconf_object = self.api.generate_object(json_string, target_uge_version)
         if self.options.output_format == 'json':
-            print qconf_object.to_json()
+            print(qconf_object.to_json())
         else:
-            print qconf_object.to_uge()
+            print(qconf_object.to_uge())
 
 #############################################################################
 # Run command.

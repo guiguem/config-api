@@ -21,7 +21,7 @@
 import re
 from uge.exceptions.invalid_request import InvalidRequest
 from uge.objects.qconf_object_factory import QconfObjectFactory
-from dict_based_object_manager import DictBasedObjectManager
+from .dict_based_object_manager import DictBasedObjectManager
 
 class SchedulerConfigurationManager(DictBasedObjectManager):
 

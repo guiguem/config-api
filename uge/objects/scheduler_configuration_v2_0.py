@@ -19,7 +19,7 @@
 #___INFO__MARK_END__ 
 # 
 import string
-from qconf_object import QconfObject
+from .qconf_object import QconfObject
 
 class SchedulerConfiguration(QconfObject):
     """ This class encapsulates UGE scheduler configuration object. """

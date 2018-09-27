@@ -19,11 +19,11 @@
 #___INFO__MARK_END__ 
 # 
 import types
-import UserList
-from qconf_object import QconfObject
+import collections
+from .qconf_object import QconfObject
 from uge.exceptions.invalid_argument import InvalidArgument
 
-class QconfDictList(QconfObject, UserList.UserList):
+class QconfDictList(QconfObject, collections.UserList):
     """ This class encapsulates data and functionality common to all Qconf objects based on a list of dictionaries. """
 
     FIRST_KEY = None
@@ -47,14 +47,14 @@ class QconfDictList(QconfObject, UserList.UserList):
 
         :raises: **InvalidArgument** - in case metadata is not a dictionary, JSON string is not valid, or it does not represent a list of dictionaries object.
         """
-        UserList.UserList.__init__(self)
+        collections.UserList.__init__(self)
         QconfObject.__init__(self, data=data, metadata=metadata, json_string=json_string)
 
     def check_input_data(self, data):
-        if type(data) != types.ListType:
+        if type(data) != list:
             raise InvalidArgument('Provided data is not a list: %s.' % str(data))
         for d in data:
-            if type(d) != types.DictType:
+            if type(d) != dict:
                 raise InvalidArgument('List member is not a dictionary: %s.' % str(d))
        
     def update_with_required_data_defaults(self):
@@ -63,13 +63,13 @@ class QconfDictList(QconfObject, UserList.UserList):
 
         :raises: **InvalidArgument** - in case object's data is not a list, or one of the list members is not a dictionary.
         """
-        if type(self.data) != types.ListType:
+        if type(self.data) != list:
             raise InvalidRequest('Data object is not a list: %s.' % str(self.data))
         for d in self.data:
-            if type(d) != types.DictType:
+            if type(d) != dict:
                 raise InvalidArgument('List member is not a dictionary: %s.' % str(d))
-            for (key,value) in self.get_required_data_defaults().items():
-                if not d.has_key(key):
+            for (key,value) in list(self.get_required_data_defaults().items()):
+                if key not in d:
                     d[key] = value
 
     def check_user_provided_keys(self):
@@ -79,7 +79,7 @@ class QconfDictList(QconfObject, UserList.UserList):
         :raises: **InvalidRequest** - in case object's data is not a dictionary, or if any of the required keys are missing.
         """
         for d in self.data:
-            if type(d) != types.DictType:
+            if type(d) != dict:
                 raise InvalidRequest('List member is not a dictionary: %s.' % str(d))
             for key in self.USER_PROVIDED_KEYS:
                 if not d.get(key):
@@ -93,13 +93,13 @@ class QconfDictList(QconfObject, UserList.UserList):
         """
         lines = ''
         for d in self.data:
-            for (key, value) in d.items():
+            for (key, value) in list(d.items()):
                 lines += '%s%s%s\n' % (key, self.KEY_VALUE_DELIMITER, self.py_to_uge(key, value))
         return lines
 
     def convert_data_to_uge_keywords(self, data):
         for d in data:
-            for (key, value) in d.items():
+            for (key, value) in list(d.items()):
                 d[key] = self.py_to_uge(key, value)
 
     def set_data_dict_list_from_qconf_output(self, qconf_output):

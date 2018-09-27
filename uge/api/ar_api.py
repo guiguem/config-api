@@ -106,9 +106,9 @@ class AdvanceReservationApi(object):
             try:
                 result = func(*args, **kwargs)
                 return result
-            except AdvanceReservationException, ex:
+            except AdvanceReservationException as ex:
                 raise
-            except Exception, ex:
+            except Exception as ex:
                 raise AdvanceReservationException(exception=ex)
         return decorator(wrapped_call, func)
 
@@ -121,9 +121,9 @@ class AdvanceReservationApi(object):
                 try:
                     result = func(*args, **kwargs)
                     return result
-                except AdvanceReservationException, ex:
+                except AdvanceReservationException as ex:
                     raise
-                except Exception, ex:
+                except Exception as ex:
                     raise AdvanceReservationException(exception=ex)
             return decorator(wrapped_call, func)
         if len(dargs) == 1 and callable(dargs[0]):
@@ -265,17 +265,17 @@ if __name__ == '__main__':
     lm = LogManager.get_instance()
     lm.set_console_log_level('trace')
     api = AdvanceReservationApi()
-    print api.get_uge_version()
+    print(api.get_uge_version())
     ar_id1 = api.request_ar('-d 3600 -fr y')
     ar1 = api.get_ar(ar_id1)
-    print 'AR 1: ', ar1
+    print('AR 1: ', ar1)
     ar_id2 = api.request_ar('-cal_week mon-fri=8-16=on')
     ar2 = api.get_ar(ar_id2)
-    print 'AR 2: ', ar2
+    print('AR 2: ', ar2)
     ar_summary = api.get_ar_summary()
-    print 'AR SUMMARY: ', ar_summary
-    print 'AR LIST: ', api.get_ar_list()
-    print api.delete_ar(ar_id1)
-    print api.delete_ar(ar_id2)
+    print('AR SUMMARY: ', ar_summary)
+    print('AR LIST: ', api.get_ar_list())
+    print(api.delete_ar(ar_id1))
+    print(api.delete_ar(ar_id2))
 
 

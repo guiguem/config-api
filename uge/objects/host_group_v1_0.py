@@ -18,7 +18,7 @@
 ########################################################################### 
 #___INFO__MARK_END__ 
 # 
-from qconf_object import QconfObject
+from .qconf_object import QconfObject
 
 class HostGroup(QconfObject):
     """ This class encapsulates UGE host group object. """

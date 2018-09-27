@@ -22,7 +22,7 @@ import re
 from uge.exceptions.object_not_found import ObjectNotFound
 from uge.exceptions.invalid_request import InvalidRequest
 from uge.objects.ar_object_factory import AdvanceReservationObjectFactory
-from dict_based_object_manager import DictBasedObjectManager
+from .dict_based_object_manager import DictBasedObjectManager
 
 class AdvanceReservationManager(DictBasedObjectManager):
 

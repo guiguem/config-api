@@ -23,8 +23,12 @@ import os
 import pwd
 import socket
 
-import UserDict
-import ConfigParser
+try:
+    from UserDict import UserDict
+    import configparser
+except ImportError:
+    from collections import UserDict
+    import configparser
 
 # Defaults.
 DEFAULT_UGE_ROOT = '/opt/uge'
@@ -41,7 +45,7 @@ DEFAULT_UGE_LOG_RECORD_FORMAT = \
 DEFAULT_UGE_LOG_DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 
-class ConfigManager(UserDict.UserDict, object):
+class ConfigManager(UserDict, object):
     """
     Singleton class used for keeping system configuration data. The class
     initializes its data using predefined defaults, or from the following
@@ -81,7 +85,7 @@ class ConfigManager(UserDict.UserDict, object):
         # Only initialize once.
         if ConfigManager.__instance is not None:
             return
-        UserDict.UserDict.__init__(self)
+        UserDict.__init__(self)
         self.config_parser = None
         self['defaultRoot'] = DEFAULT_UGE_ROOT
         self['defaultConfigFile'] = DEFAULT_UGE_CONFIG_FILE
@@ -150,7 +154,7 @@ class ConfigManager(UserDict.UserDict, object):
         """ Return config parser, or none if config file cannot be found. """
         if self.config_parser is None:
             config_file = self.get_config_file()
-            self.config_parser = ConfigParser.ConfigParser(defaults)
+            self.config_parser = configparser.ConfigParser(defaults)
             if os.path.exists(config_file):
                 self.config_parser.read(config_file)
         if self.config_parser is not None:
@@ -269,7 +273,7 @@ class ConfigManager(UserDict.UserDict, object):
         if self.has_config_section(config_section):
             try:
                 return config_parser.get(config_section, key, True)
-            except ConfigParser.NoOptionError, ex:
+            except configparser.NoOptionError as ex:
                 # ok, return default
                 pass
         return default_value
@@ -306,11 +310,11 @@ class ConfigManager(UserDict.UserDict, object):
 # Testing
 if __name__ == '__main__':
     cm1 = ConfigManager.get_instance()
-    print 'CONFIG_FILE: ', cm1.get_config_file()
+    print(('CONFIG_FILE: ', cm1.get_config_file()))
     cm1.set_config_file('/tmp/xyz')
-    print 'CONFIG_FILE: ', cm1.get_config_file()
+    print(('CONFIG_FILE: ', cm1.get_config_file()))
     cm2 = ConfigManager()
-    print 'cm1 = cm2:', cm1 == cm2
-    print 'ROOT: ', cm1.get_root()
-    print 'CONFIG_FILE: ', cm1.get_config_file()
-    print 'CONFIG FILE SECTIONS: ', cm1.get_config_sections()
+    print(('cm1 = cm2:', cm1 == cm2))
+    print(('ROOT: ', cm1.get_root()))
+    print(('CONFIG_FILE: ', cm1.get_config_file()))
+    print(('CONFIG FILE SECTIONS: ', cm1.get_config_sections()))

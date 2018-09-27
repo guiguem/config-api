@@ -31,9 +31,8 @@ from uge.exceptions.invalid_argument import InvalidArgument
 from optparse import OptionParser
 from optparse import OptionGroup
 
-class QconfCli(object):
+class QconfCli(object, metaclass=abc.ABCMeta):
     """ Base qconf command line interface class. """
-    __metaclass__ = abc.ABCMeta
     
     def __init__(self, valid_arg_count=0):
         """ 
@@ -99,7 +98,7 @@ class QconfCli(object):
 
         try:
             (self.options, self.args) = self.parser.parse_args()
-        except SystemExit, rc:
+        except SystemExit as rc:
             sys.stdout.flush()
             sys.stderr.flush()
             os._exit(int(str(rc)))
@@ -113,7 +112,7 @@ class QconfCli(object):
 
         opt_dict = self.options.__dict__
         if opt_dict.get('cmd_version'):
-            print '%s version: %s' % (os.path.basename(sys.argv[0]), ConfigManager.get_instance().get_version())
+            print('%s version: %s' % (os.path.basename(sys.argv[0]), ConfigManager.get_instance().get_version()))
             os._exit(0)
 
         # Log level.
@@ -128,7 +127,7 @@ class QconfCli(object):
     def usage(self, s = None):
         """ Print the help provided by optparse. """
 
-        if s: print >>sys.stderr, 'Error:', s, '\n'
+        if s: print('Error:', s, '\n', file=sys.stderr)
         self.parser.print_help()
         os._exit(1)
 
@@ -166,16 +165,16 @@ class QconfCli(object):
         """
         try:
             self.run_command()
-        except QconfException, ex:
+        except QconfException as ex:
             if self.logger.level < logging.INFO:
                 self.logger.exception('%s' % ex)
-            print '%s' % ex.get_error_message()
+            print('%s' % ex.get_error_message())
             raise SystemExit(ex.get_error_code())
-        except SystemExit, ex:
+        except SystemExit as ex:
             raise
-        except Exception, ex:
+        except Exception as ex:
             self.logger.exception('%s' % ex)
-            print '%s' % ex
+            print('%s' % ex)
             raise SystemExit(-1)
 
 #############################################################################
@@ -188,31 +187,31 @@ if __name__ == '__main__':
                    action="store_false", dest="verbose", default=True,
                    help="don't print status messages to stdout")
     (options, args) = cli.parse_args()
-    print 'OPTIONS: ', options
-    print 'ARGS: ', args
+    print('OPTIONS: ', options)
+    print('ARGS: ', args)
 
-    print 'OPTIONS: ', cli.get_options()
-    print 'ARGS: ', cli.get_args()
-    print 'options.filename', options.filename
-    print 'cli.getOptions().filename', cli.get_options().filename
+    print('OPTIONS: ', cli.get_options())
+    print('ARGS: ', cli.get_args())
+    print('options.filename', options.filename)
+    print('cli.getOptions().filename', cli.get_options().filename)
     o = cli.get_options()
-    print 'o.filename', o.filename
+    print('o.filename', o.filename)
 
-    print 'cli.get_args()', cli.get_args()
-    print 'len(cli.get_args())', len(cli.get_args())
+    print('cli.get_args()', cli.get_args())
+    print('len(cli.get_args())', len(cli.get_args()))
 
     for a in cli.get_args():
-        print 'arg', a
+        print('arg', a)
 
     first_arg = cli.get_arg(0)
-    print 'first_arg', first_arg
+    print('first_arg', first_arg)
 
     second_arg = cli.get_arg(1)
-    print 'second_arg', second_arg
+    print('second_arg', second_arg)
 
     try:
         third_arg = cli.get_arg(2)
-        print 'third_arg', third_arg
+        print('third_arg', third_arg)
     except:
-        print 'no third arg'
+        print('no third arg')
 

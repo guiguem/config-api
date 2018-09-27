@@ -93,7 +93,7 @@ class UgeSubprocess(subprocess.Popen):
         p = UgeSubprocess(command)
         try:
             p.run()
-        except CommandFailed, ex:
+        except CommandFailed as ex:
             p.get_logger().debug('Command failed, stdout: %s, stderr: %s' % (p.get_stdout(), p.get_stderr()))
         return p
 
@@ -108,7 +108,7 @@ class UgeSubprocess(subprocess.Popen):
             outp = p.stdout.readline()
             if not outp:
                 break
-            print outp,
+            print(outp, end=' ')
         retval = p.wait()
 
         p.logger.debug('Exit status: %s' % retval)
@@ -128,7 +128,7 @@ class UgeSubprocess(subprocess.Popen):
 # Testing.
 if __name__ == '__main__':
     p = UgeSubprocess('ls -l', use_exceptions=False)
-    print p.run()
-    print p.get_stdout()
-    print p.get_stderr()
-    print p.get_exit_status()
+    print(p.run())
+    print(p.get_stdout())
+    print(p.get_stderr())
+    print(p.get_exit_status())

@@ -19,11 +19,11 @@
 #___INFO__MARK_END__ 
 # 
 import types
-import UserList
-from qconf_object import QconfObject
+import collections
+from .qconf_object import QconfObject
 from uge.exceptions.invalid_argument import InvalidArgument
 
-class QconfNameList(QconfObject, UserList.UserList):
+class QconfNameList(QconfObject, collections.UserList):
     """ 
     This class represents list of names returned by various qconf commands. It supports
     all standard python list interfaces.
@@ -47,11 +47,11 @@ class QconfNameList(QconfObject, UserList.UserList):
 
         :raises: **InvalidArgument** - in case metadata is not a dictionary, JSON string is not valid, or it does not contain dictionary representing a QconfNameList object.
         """
-        UserList.UserList.__init__(self)
+        collections.UserList.__init__(self)
         QconfObject.__init__(self, name=name, data=data, metadata=metadata, json_string=json_string)
     
     def check_input_data(self, data):
-        if type(data) != types.ListType:
+        if type(data) != list:
             raise InvalidArgument('Provided data is not a list: %s.' % str(data))
 
     def convert_data_to_uge_keywords(self, data):
@@ -61,12 +61,12 @@ class QconfNameList(QconfObject, UserList.UserList):
 # Testing.
 if __name__ == '__main__':
     name_list = QconfNameList(data=['xyz', 'abc'])
-    print name_list.__class__.__name__
+    print(name_list.__class__.__name__)
     name_list.append('admin1')
     name_list.append('admin2')
-    print name_list
+    print(name_list)
     for n in name_list:
-        print 'NAME: ', n
+        print('NAME: ', n)
 
     
 

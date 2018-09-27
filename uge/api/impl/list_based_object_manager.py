@@ -44,12 +44,12 @@ class ListBasedObjectManager(object):
         self.qconf_executor = qconf_executor
 
     def __prepare_names(self, names):
-        if type(names) == types.StringType:
+        if type(names) == bytes:
             if names.find(','):
                 name_list = names.split(',')
             else:
                 name_list = names.split()
-        elif type(names) == types.ListType:
+        elif type(names) == list:
                 name_list = names
         else:
             raise InvalidArgument('Names must be provided either as a list, or as a string containing names separated by space or comma.')
@@ -78,7 +78,7 @@ class ListBasedObjectManager(object):
         try:
             qconf_output = self.qconf_executor.execute_qconf('-s%s' % (self.OBJECT_CLASS_UGE_NAME), self.QCONF_ERROR_REGEX_LIST).get_stdout()
             name_list = QconfNameList(metadata={'description' : 'List of %s names' % (self.OBJECT_NAME)}, data=QconfObject.get_list_from_qconf_output(qconf_output))
-        except ObjectNotFound, ex:
+        except ObjectNotFound as ex:
             name_list = QconfNameList(metadata={'description' : 'List of %s names' % (self.OBJECT_NAME)}, data=[])
         return name_list
         

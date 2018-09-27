@@ -24,7 +24,7 @@ from uge.exceptions.invalid_argument import InvalidArgument
 from uge.exceptions.object_already_exists import ObjectAlreadyExists
 from uge.exceptions.object_not_found import ObjectNotFound
 from uge.objects.qconf_object_factory import QconfObjectFactory
-from dict_based_object_manager import DictBasedObjectManager
+from .dict_based_object_manager import DictBasedObjectManager
 
 class ComplexConfigurationManager(DictBasedObjectManager):
 
@@ -59,14 +59,14 @@ class ComplexConfigurationManager(DictBasedObjectManager):
     def add_cattr(self, name, data):
         cconf = self.get_object('')
         cconf.check_attribute_data(name, data)
-        if cconf.data.has_key(name):
+        if name in cconf.data:
             raise ObjectAlreadyExists('Complex attribute %s already exists.' % name)
         cconf.data[name] = data
         return self.replace_object(cconf)
         
     def modify_cattr(self, name, data):
         cconf = self.get_object('')
-        if cconf.data.has_key(name):
+        if name in cconf.data:
             attr_data = cconf.data[name]
             attr_data.update(data)
         else:
@@ -76,7 +76,7 @@ class ComplexConfigurationManager(DictBasedObjectManager):
         
     def delete_cattr(self, name):
         cconf = self.get_object('')
-        if cconf.data.has_key(name):
+        if name in cconf.data:
             del cconf.data[name]
         else:
             raise ObjectNotFound('Complex attribute %s does not exist.' % name)

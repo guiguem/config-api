@@ -82,7 +82,7 @@ class QrsubExecutor(object):
                     if pattern.match(error):
                         raise qrsubExClass(error, error_details=error_details)
             return p
-        except CommandFailed, ex:
+        except CommandFailed as ex:
             error = str(ex)
             if combine_error_lines:
                 error = error.replace('\n', '; ')
@@ -99,9 +99,9 @@ class QrsubExecutor(object):
     def request_ar(self, args):
         p = self.execute_qrsub(args);
         lines = p.get_stdout()
-        print lines
+        print(lines)
         result = re.findall(r'\d+', lines)
-        print result[0]
+        print(result[0])
         return result[0]
 
 #############################################################################
@@ -110,11 +110,11 @@ if __name__ == '__main__':
     from uge.exceptions.command_failed import CommandFailed
     executor = QrsubExecutor(sge_root='/opt/uge-8.1.7p5')
     try:
-        print 'Version: ', executor.get_uge_version()
+        print('Version: ', executor.get_uge_version())
 
         p = executor.execute_qrsub('-help')
-        print p.get_stdout()
-        print p.get_exit_status()
-    except CommandFailed, ex:
-        print 'Exit Status: ', ex.get_command_exit_status()
-        print 'Std Error  : ', ex.get_command_stderr()
+        print(p.get_stdout())
+        print(p.get_exit_status())
+    except CommandFailed as ex:
+        print('Exit Status: ', ex.get_command_exit_status())
+        print('Std Error  : ', ex.get_command_stderr())

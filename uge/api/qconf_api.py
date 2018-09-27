@@ -133,9 +133,9 @@ class QconfApi(object):
             try:
                 result = func(*args, **kwargs)
                 return result
-            except QconfException, ex:
+            except QconfException as ex:
                 raise
-            except Exception, ex:
+            except Exception as ex:
                 raise QconfException(exception=ex)
         return decorator(wrapped_call, func)
 
@@ -148,9 +148,9 @@ class QconfApi(object):
                 try:
                     result = func(*args, **kwargs)
                     return result
-                except QconfException, ex:
+                except QconfException as ex:
                     raise
-                except Exception, ex:
+                except Exception as ex:
                     raise QconfException(exception=ex)
             return decorator(wrapped_call, func)
         if len(dargs) == 1 and callable(dargs[0]):
@@ -3043,15 +3043,15 @@ if __name__ == '__main__':
     #api = QconfApi(sge_root='/opt/uge-8.3.1p9')
     api = QconfApi()
     new_q = api.generate_queue('new.q')
-    print new_q.to_json()
+    print((new_q.to_json()))
     #all_q = api.get_queue('all.q2')
     all_q = api.get_queue('all.q')
-    print all_q.to_json()
-    print
-    print api.modify_queue(name='all2.q', data={'load_thresholds' : 'np_load_avg=1.65'}).to_json()
+    print((all_q.to_json()))
+    print()
+    print((api.modify_queue(name='all2.q', data={'load_thresholds' : 'np_load_avg=1.65'}).to_json()))
     #api.delete_queue('all2.q')
     queue_list = api.list_queues()
-    print 'QUEUE LIST: ', queue_list
-    print 'QUEUE LIST JSON: ', queue_list.to_json()
+    print(('QUEUE LIST: ', queue_list))
+    print(('QUEUE LIST JSON: ', queue_list.to_json()))
 
 

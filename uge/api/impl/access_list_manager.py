@@ -25,7 +25,7 @@ from uge.exceptions.object_already_exists import ObjectAlreadyExists
 from uge.exceptions.invalid_request import InvalidRequest
 from uge.exceptions.invalid_argument import InvalidArgument
 from uge.objects.qconf_object_factory import QconfObjectFactory
-from dict_based_object_manager import DictBasedObjectManager
+from .dict_based_object_manager import DictBasedObjectManager
 
 class AccessListManager(DictBasedObjectManager):
 
@@ -56,11 +56,11 @@ class AccessListManager(DictBasedObjectManager):
         self.qconf_executor.execute_qconf('-dul %s' % (name), self.QCONF_ERROR_REGEX_LIST)
        
     def __check_and_prepare_input(self, input_value, input_arg_name):
-        if type(input_value) == types.StringType:
+        if type(input_value) == bytes:
             if input_value.find(' ') >= 0:
                 raise InvalidArgument('Value for argument %s must be provided either as a comma-separated string list, or as a python list of strings.' % input_arg_name)
             return input_value
-        elif type(input_value) == types.ListType:
+        elif type(input_value) == list:
             input_value = ','.join(input_value)
             return input_value
         else:

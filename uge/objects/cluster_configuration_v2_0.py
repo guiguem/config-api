@@ -21,7 +21,7 @@
 import os
 import tempfile
 import string
-from qconf_object import QconfObject
+from .qconf_object import QconfObject
 
 class ClusterConfiguration(QconfObject):
     """ This class encapsulates UGE cluster configuration object. """
@@ -150,7 +150,7 @@ class ClusterConfiguration(QconfObject):
                 self.name = 'global'
 
     def get_name_from_data(self):
-        for (key,value) in self.data.items():
+        for (key,value) in list(self.data.items()):
             if key.startswith('#'):
                 return key[1:-1] # remove comment and ending column characters
         return None

@@ -21,7 +21,7 @@
 
 import logging
 
-from trace_log_record import TraceLogRecord
+from .trace_log_record import TraceLogRecord
 
 class TraceLogger(logging.getLoggerClass()):
     # Use a level of 5...in logging module 0 = NOTSET and 10 = DEBUG

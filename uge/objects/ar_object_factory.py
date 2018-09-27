@@ -22,7 +22,7 @@ import imp
 import json
 from uge.exceptions.ar_exception import AdvanceReservationException
 from uge.exceptions.invalid_request import InvalidRequest
-from uge_release_object_map import UGE_RELEASE_OBJECT_MAP
+from .uge_release_object_map import UGE_RELEASE_OBJECT_MAP
 
 class AdvanceReservationObjectFactory(object):
 
@@ -42,7 +42,7 @@ class AdvanceReservationObjectFactory(object):
     def __get_object_class_from_uge_version(cls, uge_version, class_name, base_module_name=None):
         if not uge_version:
             raise InvalidRequest('Cannot generate %s object: UGE version must be specified.' % class_name)
-        if not UGE_RELEASE_OBJECT_MAP.has_key(uge_version):
+        if uge_version not in UGE_RELEASE_OBJECT_MAP:
             raise QconfException('Unsupported UGE version: %s.' % uge_version)
         release_map = UGE_RELEASE_OBJECT_MAP.get(uge_version)
         object_version = release_map.get(class_name)
@@ -95,13 +95,13 @@ class AdvanceReservationObjectFactory(object):
 #############################################################################
 # Testing.
 if __name__ == '__main__':
-    print __file__
+    print(__file__)
     module_file = '%s/%s.py' % ('/'.join(__file__.split('/')[:-1]), 'advance_reservation_v1_0')
-    print module_file
+    print(module_file)
     module = imp.load_source('uge.objects.advance_reservation_v1_0', module_file)
-    print module
-    print getattr(module, 'AdvanceReservation')
+    print(module)
+    print(getattr(module, 'AdvanceReservation'))
     ar = AdvanceReservationObjectFactory.generate_advance_reservation('8.6.0')
-    print ar 
-    print ar.VERSION
+    print(ar) 
+    print(ar.VERSION)
 

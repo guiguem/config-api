@@ -22,7 +22,7 @@
 import re
 import logging
 
-from trace_logger import TraceLogger
+from .trace_logger import TraceLogger
 
 class LoggerFactory(object):
     def __init__(self, logger_expressions=None):
@@ -83,7 +83,7 @@ class LoggerFactory(object):
                         results[0], results[1]))
 
                 self.expressions.append(results)
-            except Exception, ex:
+            except Exception as ex:
                 self.logger.\
                     error('Parser error in log configuration file: %s' % (
                         line))

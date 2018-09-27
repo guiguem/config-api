@@ -22,7 +22,7 @@ import re
 from uge.exceptions.object_not_found import ObjectNotFound
 from uge.exceptions.invalid_request import InvalidRequest
 from uge.exceptions.object_already_exists import ObjectAlreadyExists
-from list_based_object_manager import ListBasedObjectManager
+from .list_based_object_manager import ListBasedObjectManager
 
 class OperatorManager(ListBasedObjectManager):
 
